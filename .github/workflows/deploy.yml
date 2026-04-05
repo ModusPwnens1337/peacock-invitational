@@ -24,7 +24,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::943179398584:role/github-actions-s3-deploy
+          role-to-assume: arn:aws:iam::943179398584:role/peacock-invitational-github-actions
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Sync dist to S3
