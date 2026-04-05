@@ -16,29 +16,10 @@ jobs:
       AWS_REGION: us-east-1
       S3_BUCKET: peacock-invitational-943179398584-us-east-1-an
       CLOUDFRONT_DISTRIBUTION_ID: E3EFGHLQJ4GX3Y
-      NPM_CONFIG_FETCH_RETRIES: 5
-      NPM_CONFIG_FETCH_RETRY_MINTIMEOUT: 20000
-      NPM_CONFIG_FETCH_RETRY_MAXTIMEOUT: 120000
-      NPM_CONFIG_FETCH_TIMEOUT: 300000
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          registry-url: https://registry.npmjs.org
-
-      - name: Show registry
-        run: npm config get registry
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build site
-        run: npm run build
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
