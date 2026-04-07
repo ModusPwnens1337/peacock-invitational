@@ -76,8 +76,6 @@ app.innerHTML = `
           <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
             <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
             <li class="nav-item"><a class="nav-link" href="#details">Details</a></li>
-            <li class="nav-item"><a class="nav-link" href="#dates">Dates</a></li>
-            <li class="nav-item"><a class="nav-link" href="#register">Register</a></li>
             <li class="nav-item"><a class="btn btn-flag ms-lg-2" href="#register">Pre-Register</a></li>
           </ul>
         </div>
@@ -95,18 +93,17 @@ app.innerHTML = `
             <h1 class="hero-title">The Peacock Invitational</h1>
             <p class="hero-tagline">Honoring a Life Well Played</p>
             <p class="hero-copy">
-              A memorial golf tournament built around friendship, remembrance, and a meaningful day on the course.
+              A memorial golf tournament built around remembrance of Shane.
               Share your availability so we can choose the best date and begin shaping the event together.
             </p>
             <div class="hero-actions">
               <a href="#register" class="btn btn-flag btn-lg">Pre-Register</a>
-              <a href="#dates" class="btn btn-outline-light btn-lg">View Date Options</a>
             </div>
             <div class="hero-meta row g-3 mt-4">
               <div class="col-sm-4">
                 <div class="meta-card">
                   <span>Format</span>
-                  <strong>Memorial outing</strong>
+                  <strong>To Be Declared</strong>
                 </div>
               </div>
               <div class="col-sm-4">
@@ -132,14 +129,17 @@ app.innerHTML = `
       </div>
     </section>
 
-    <section id="about" class="content-section section-deep">
+    <section id="about" class="content-section section-night">
       <div class="container">
         <div class="row align-items-center g-5">
           <div class="col-lg-7">
             <p class="section-kicker">About the tournament</p>
-            <h2 class="section-title">A memorial gathering rooted in friendship and community</h2>
+            <h2 class="section-title">A memorial gathering for Shane Peacock</h2>
             <p class="section-copy">
-              The Peacock Invitational is a place to honor Shane Peacock with a day that feels personal, polished, and welcoming.
+              The Peacock Invitational is a place to honor Shane Peacock with a day on the course. A place where many of us got to spend some of our most memorable moments with Shane. 
+              This day and tournament will represent our love and remembrance of Shane by getting together with friends to commemerate our loss of the big guy.
+            </p>
+            <p class="section-copy muted-copy">
               This early site is designed to help gather the right group and land on the strongest tournament date before final details are announced.
             </p>
             <p class="section-copy muted-copy mb-0">
@@ -156,11 +156,11 @@ app.innerHTML = `
       </div>
     </section>
 
-    <section id="details" class="content-section section-night">
+    <section id="details" class="content-section section-deep">
       <div class="container">
         <div class="section-heading text-center">
           <p class="section-kicker">Event snapshot</p>
-          <h2 class="section-title">Clear details without overcomplicating the plan</h2>
+          <h2 class="section-title">Help us solidify a plan with your input</h2>
         </div>
         <div class="row g-4 mt-1">
           <div class="col-md-6 col-xl-3">
@@ -195,20 +195,7 @@ app.innerHTML = `
       </div>
     </section>
 
-    <section id="dates" class="content-section section-deep">
-      <div class="container">
-        <div class="section-heading text-center narrow">
-          <p class="section-kicker">Date preference</p>
-          <h2 class="section-title">Select all dates that could work for you</h2>
-          <p class="section-copy">The final tournament date will be chosen from the options with the strongest support.</p>
-        </div>
-        <div class="date-chip-grid">
-          ${dateCards}
-        </div>
-      </div>
-    </section>
-
-    <section id="register" class="content-section section-form">
+    <section id="register" class="content-section section-night">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-xl-9 col-lg-10">
