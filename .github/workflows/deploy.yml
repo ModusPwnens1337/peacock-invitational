@@ -1,4 +1,4 @@
-name: Deploy site to AWS
+name: Build and deploy site to AWS
 
 on:
   push:
@@ -19,13 +19,14 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
@@ -34,7 +35,7 @@ jobs:
         run: npm run build
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: arn:aws:iam::943179398584:role/peacock-invitational-github-actions
           aws-region: ${{ env.AWS_REGION }}
