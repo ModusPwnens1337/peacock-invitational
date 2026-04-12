@@ -158,7 +158,6 @@ code {
 .info-card,
 .form-frame,
 .date-chip,
-.form-date-option,
 .form-panel,
 .form-side-panel {
   border: 1px solid var(--border);
@@ -353,7 +352,6 @@ code {
 .form-panel .form-label,
 .form-panel legend,
 .form-panel .privacy-note,
-.form-panel .optional,
 .form-panel .validation-note,
 .form-panel .choice-row span,
 .form-panel .form-date-option span {
@@ -363,7 +361,7 @@ code {
 .form-panel .section-copy,
 .form-panel p,
 .form-panel .privacy-note,
-.form-panel .optional {
+.form-panel {
   color: #4b6479;
 }
 
@@ -413,7 +411,8 @@ textarea.form-control {
 }
 
 .optional {
-  font-size: 0.92rem;
+  color: #9d9e9f;
+  font-size: 0.8rem;
 }
 
 .privacy-note,

@@ -3,13 +3,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
 
 const candidateDates = [
-  'Saturday, June 6, 2026',
-  'Saturday, June 13, 2026',
-  'Saturday, June 20, 2026',
-  'Saturday, June 27, 2026',
+  'Weekend of September 12th & 13th',
+  'Weekend of September 19th & 20th',
+  'Weekend of September 26th & 27th',
+  'Weekend of October 3rd & 4th',
 ];
 
-const formspreeEndpoint = 'https://formspree.io/f/your-form_id';
+const days = [
+  'Saturday',
+  'Sunday',
+];
+
+const formspreeEndpoint = 'https://formspree.io/f/xzdknndl';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 
@@ -46,6 +51,12 @@ const topChoiceOptions = [
   '<option value="">Select your top choice</option>',
   ...candidateDates.map((date) => `<option value="${date}">${date}</option>`),
   '<option value="Interested, but none currently work">Interested, but none currently work</option>',
+].join('');
+
+const topChoiceDayOptions = [
+  '<option value="">Select your top choice</option>',
+  ...days.map((day) => `<option value="${day}">${day}</option>`),
+  '<option value="Either works">Either works</option>',
 ].join('');
 
 app.innerHTML = `
@@ -246,23 +257,31 @@ app.innerHTML = `
                           </fieldset>
                         </div>
 
+                        <div class="col-md-12">
+                          <label for="topChoiceWeekend" class="form-label">Top choice weekend <span class="required">*</span></label>
+                          <select id="topChoiceWeekend" name="topChoiceWeekend" class="form-select" required>
+                            ${topChoiceOptions}
+                          </select>
+                          <div class="invalid-feedback">Please choose your top weekend.</div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <label for="topChoiceDay" class="form-label">Top choice day <span class="required">*</span></label>
+                          <select id="topChoiceDay" name="topChoiceDay" class="form-select" required>
+                            ${topChoiceDayOptions}
+                          </select>
+                          <div class="invalid-feedback">Please choose your top day.</div>
+                        </div>
+
                         <div class="col-md-6">
                           <label for="attendeeCount" class="form-label">Estimated group size <span class="required">*</span></label>
                           <input id="attendeeCount" name="attendeeCount" type="number" min="1" max="12" value="1" class="form-control" required />
                           <div class="invalid-feedback">Please enter a group size.</div>
                         </div>
 
-                        <div class="col-md-6">
-                          <label for="topChoiceDate" class="form-label">Top choice date <span class="required">*</span></label>
-                          <select id="topChoiceDate" name="topChoiceDate" class="form-select" required>
-                            ${topChoiceOptions}
-                          </select>
-                          <div class="invalid-feedback">Please choose your top date.</div>
-                        </div>
-
                         <div class="col-12">
                           <fieldset>
-                            <legend class="form-label mb-2">Dates that work for you <span class="required">*</span></legend>
+                            <legend class="form-label mb-0">Dates that work for you <span class="required">*</span></legend>
                             <div class="row g-2">${formDateOptions}
                               <div class="col-12">
                                 <label class="form-date-option alt" for="form-date-none">
@@ -271,15 +290,8 @@ app.innerHTML = `
                                 </label>
                               </div>
                             </div>
-                            <div id="date-error" class="validation-note d-none">Please select at least one option.</div>
+                            <div id="date-error" class="d-none optional">Please select at least one option.</div>
                           </fieldset>
-                        </div>
-
-                        <div class="col-12">
-                          <label class="form-date-option alt" for="volunteerInterest">
-                            <input class="form-check-input" type="checkbox" id="volunteerInterest" name="volunteerInterest" value="Yes" />
-                            <span>I would be open to helping, volunteering, or hearing about sponsorship opportunities.</span>
-                          </label>
                         </div>
 
                         <div class="col-12">
@@ -306,7 +318,7 @@ app.innerHTML = `
   <footer class="site-footer">
     <div class="container d-flex flex-column flex-lg-row justify-content-between gap-2">
       <p class="mb-0">The Peacock Invitational · Honoring a Life Well Played</p>
-      <p class="mb-0">Update the Formspree endpoint in <code>src/main.ts</code> before launch.</p>
+      <p class="mb-0">Created by Dylan Riley <3 04/11/2026</code></p>
     </div>
   </footer>
 `;
@@ -405,7 +417,7 @@ form.addEventListener('submit', async (event) => {
     window.location.hash = 'register';
   } catch {
     showAlert(
-      'The form could not be submitted yet. Replace the Formspree endpoint in src/main.ts with your real form URL before launch.',
+      'The form could not be submitted. Please try again, and check the browser console or network tab for details.',
       'danger',
     );
   } finally {
