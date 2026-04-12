@@ -218,11 +218,6 @@ app.innerHTML = `
                   <p class="section-copy mb-4">
                     This short form helps estimate attendance, capture preferred dates, and build the first outreach list for the event.
                   </p>
-                  <ul class="check-list">
-                    <li>Fast, phone-friendly form</li>
-                    <li>Date preference and attendance estimate</li>
-                    <li>Simple follow-up once details are finalized</li>
-                  </ul>
                 </div>
                 <div class="col-lg-7">
                   <div class="form-panel">
