@@ -221,7 +221,6 @@ app.innerHTML = `
                 </div>
                 <div class="col-lg-7">
                   <div class="form-panel">
-                    <div id="alert-region" aria-live="polite"></div>
                     <form id="registration-form" novalidate>
                       <div class="row g-3">
                         <div class="col-12">
@@ -276,7 +275,7 @@ app.innerHTML = `
 
                         <div class="col-12">
                           <fieldset>
-                            <legend class="form-label mb-0">Dates that work for you <span class="required">*</span></legend>
+                            <legend class="form-label mb-0">Other weekends that work for you <span class="required">*</span></legend>
                             <div class="row g-2">${formDateOptions}
                               <div class="col-12">
                                 <label class="form-date-option alt" for="form-date-none">
@@ -295,6 +294,8 @@ app.innerHTML = `
                         </div>
 
                         <div class="col-12">
+                          <div id="alert-region" aria-live="polite" class="mb-3"></div>
+
                           <p class="privacy-note">Your information will only be used for tournament planning and updates.</p>
                           <button id="submitButton" type="submit" class="btn btn-flag btn-lg w-100">Submit Pre-Registration</button>
                         </div>
@@ -324,6 +325,20 @@ const alertRegion = document.querySelector<HTMLDivElement>('#alert-region');
 const dateError = document.querySelector<HTMLDivElement>('#date-error');
 const dateInputs = Array.from(document.querySelectorAll<HTMLInputElement>('.available-date'));
 const previewInputs = Array.from(document.querySelectorAll<HTMLInputElement>('.date-chip-input'));
+const topChoiceWeekend = document.querySelector<HTMLSelectElement>('#topChoiceWeekend');
+const emailInput = document.querySelector<HTMLInputElement>('#email');
+
+const setFieldError = (fieldId: string, message: string) => {
+  const field = document.getElementById(fieldId) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null;
+  if (!field) return;
+
+  field.classList.add('is-invalid');
+
+  let feedback = field.parentElement?.querySelector('.invalid-feedback');
+  if (feedback) {
+    feedback.textContent = message;
+  }
+};
 
 const syncPreviewCards = () => {
   previewInputs.forEach((input, index) => {
@@ -352,6 +367,7 @@ if (!form || !submitButton || !alertRegion || !dateError) {
 
 const showAlert = (message: string, type: 'success' | 'danger') => {
   alertRegion.innerHTML = `<div class="alert alert-${type}" role="alert">${message}</div>`;
+  alertRegion.scrollIntoView({ behavior: 'smooth', block: 'center' });
 };
 
 const validateDates = () => {
@@ -365,9 +381,32 @@ dateInputs.forEach((input) => input.addEventListener('change', validateDates));
 
 validateDates();
 
+if (topChoiceWeekend) {
+  topChoiceWeekend.addEventListener('change', () => {
+    const selectedWeekend = topChoiceWeekend.value;
+
+    if (!selectedWeekend) {
+      return;
+    }
+
+    const matchingDateInput = dateInputs.find((input) => input.value === selectedWeekend);
+
+    if (matchingDateInput && !matchingDateInput.checked) {
+      matchingDateInput.checked = true;
+      matchingDateInput.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  });
+}
+
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
   alertRegion.innerHTML = '';
+
+  form.querySelectorAll('.is-invalid').forEach((el) => el.classList.remove('is-invalid'));
+
+  if (emailInput) {
+    emailInput.value = emailInput.value.trim();
+  }
 
   const formValid = form.checkValidity();
   const datesValid = validateDates();
@@ -398,8 +437,29 @@ form.addEventListener('submit', async (event) => {
       },
     });
 
+    const result = await response.json().catch(() => null);
+    console.log('Formspree response:', result);
+
     if (!response.ok) {
-      throw new Error('Submission failed.');
+      if (result?.errors) {
+        result.errors.forEach((error: { field?: string; message?: string }) => {
+          if (error.field && error.message) {
+            setFieldError(error.field, error.message);
+          }
+        });
+      }
+
+      const errorMessage =
+        result?.errors?.map((error: { field?: string; message?: string }) => {
+          if (error.field && error.message) {
+            return `${error.field}: ${error.message}`;
+          }
+          return error.message;
+        }).filter(Boolean).join(', ') ||
+        result?.error ||
+        `Submission failed with status ${response.status}.`;
+
+      throw new Error(errorMessage);
     }
 
     form.reset();
@@ -410,9 +470,10 @@ form.addEventListener('submit', async (event) => {
       'success',
     );
     window.location.hash = 'register';
-  } catch {
+  } catch (error) {
+    console.error('Form submission error:', error);
     showAlert(
-      'The form could not be submitted. Please try again, and check the browser console or network tab for details.',
+      error instanceof Error ? error.message : 'The form could not be submitted. Please try again.',
       'danger',
     );
   } finally {
