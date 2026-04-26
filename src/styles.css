@@ -517,3 +517,20 @@ textarea.form-control {
     padding: 1.25rem;
   }
 }
+
+/* Additional Attendees */
+.additional-attendee {
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 350ms ease, transform 350ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.additional-attendee.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.additional-attendee.is-removing {
+  opacity: 0;
+  transform: translateY(-6px);
+}

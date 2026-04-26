@@ -3,15 +3,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
 
 const candidateDates = [
-  'Weekend of September 12th & 13th',
-  'Weekend of September 19th & 20th',
-  'Weekend of September 26th & 27th',
-  'Weekend of October 3rd & 4th',
-];
-
-const days = [
-  'Saturday',
-  'Sunday',
+  'Sunday, September 27th',
+  'Sunday, October 4th',
+  'Sunday, October 11th',
+  'Saturday, October 17th',
+  'Sunday, October 18th',
 ];
 
 const formspreeEndpoint = 'https://formspree.io/f/xzdknndl';
@@ -51,12 +47,6 @@ const topChoiceOptions = [
   '<option value="">Select your top choice</option>',
   ...candidateDates.map((date) => `<option value="${date}">${date}</option>`),
   '<option value="Interested, but none currently work">Interested, but none currently work</option>',
-].join('');
-
-const topChoiceDayOptions = [
-  '<option value="">Select your top choice</option>',
-  ...days.map((day) => `<option value="${day}">${day}</option>`),
-  '<option value="Either works">Either works</option>',
 ].join('');
 
 app.innerHTML = `
@@ -245,26 +235,17 @@ app.innerHTML = `
                             <legend class="form-label mb-2">Attendance intent <span class="required">*</span></legend>
                             <div class="stacked-options">
                               <label class="choice-row"><input class="form-check-input" type="radio" name="attendanceIntent" value="Yes, I expect to attend" required /> <span>Yes, I expect to attend</span></label>
-                              <label class="choice-row"><input class="form-check-input" type="radio" name="attendanceIntent" value="Maybe" required /> <span>Maybe</span></label>
-                              <label class="choice-row"><input class="form-check-input" type="radio" name="attendanceIntent" value="Keep me informed" required /> <span>Keep me informed</span></label>
+                              <label class="choice-row"><input class="form-check-input" type="radio" name="attendanceIntent" value="Maybe, keep me informed" required /> <span>Maybe, keep me informed</span></label>
                             </div>
                           </fieldset>
-                        </div>
-
-                        <div class="col-md-12">
-                          <label for="topChoiceWeekend" class="form-label">Top choice weekend <span class="required">*</span></label>
-                          <select id="topChoiceWeekend" name="topChoiceWeekend" class="form-select" required>
-                            ${topChoiceOptions}
-                          </select>
-                          <div class="invalid-feedback">Please choose your top weekend.</div>
                         </div>
 
                         <div class="col-md-6">
                           <label for="topChoiceDay" class="form-label">Top choice day <span class="required">*</span></label>
                           <select id="topChoiceDay" name="topChoiceDay" class="form-select" required>
-                            ${topChoiceDayOptions}
+                            ${topChoiceOptions}
                           </select>
-                          <div class="invalid-feedback">Please choose your top day.</div>
+                          <div class="invalid-feedback">Please choose your top choice day.</div>
                         </div>
 
                         <div class="col-md-6">
@@ -273,9 +254,11 @@ app.innerHTML = `
                           <div class="invalid-feedback">Please enter a group size.</div>
                         </div>
 
+                        <div id="additional-attendees" class="row g-3"></div>
+
                         <div class="col-12">
                           <fieldset>
-                            <legend class="form-label mb-0">Other weekends that work for you <span class="required">*</span></legend>
+                            <legend class="form-label mb-0">Other days that work for you <span class="required">*</span></legend>
                             <div class="row g-2">${formDateOptions}
                               <div class="col-12">
                                 <label class="form-date-option alt" for="form-date-none">
@@ -296,7 +279,7 @@ app.innerHTML = `
                         <div class="col-12">
                           <div id="alert-region" aria-live="polite" class="mb-3"></div>
 
-                          <p class="privacy-note">Your information will only be used for tournament planning and updates.</p>
+                          <p class="privacy-note">* Your information will only be used for tournament planning and updates.</p>
                           <button id="submitButton" type="submit" class="btn btn-flag btn-lg w-100">Submit Pre-Registration</button>
                         </div>
                       </div>
@@ -325,8 +308,81 @@ const alertRegion = document.querySelector<HTMLDivElement>('#alert-region');
 const dateError = document.querySelector<HTMLDivElement>('#date-error');
 const dateInputs = Array.from(document.querySelectorAll<HTMLInputElement>('.available-date'));
 const previewInputs = Array.from(document.querySelectorAll<HTMLInputElement>('.date-chip-input'));
-const topChoiceWeekend = document.querySelector<HTMLSelectElement>('#topChoiceWeekend');
+const topChoiceDay = document.querySelector<HTMLSelectElement>('#topChoiceDay');
 const emailInput = document.querySelector<HTMLInputElement>('#email');
+const attendeeCountInput = document.getElementById("attendeeCount") as HTMLInputElement;
+const additionalAttendees = document.getElementById("additional-attendees") as HTMLDivElement;
+
+function renderAdditionalAttendees(): void {
+  const count = Math.max(1, Number(attendeeCountInput.value) || 1);
+  const existingAttendees = additionalAttendees.querySelectorAll<HTMLElement>(".additional-attendee");
+
+  existingAttendees.forEach((attendee) => {
+    const attendeeNumber = Number(attendee.dataset.attendeeNumber);
+
+    if (attendeeNumber > count) {
+      attendee.classList.remove("is-visible");
+      attendee.classList.add("is-removing");
+
+      setTimeout(() => {
+        attendee.remove();
+      }, 350);
+    }
+  });
+
+  for (let i = 2; i <= count; i++) {
+    if (additionalAttendees.querySelector(`[data-attendee-number="${i}"]`)) {
+      continue;
+    }
+
+    const attendee = document.createElement("div");
+    attendee.className = "col-12 additional-attendee";
+    attendee.dataset.attendeeNumber = String(i);
+
+    attendee.innerHTML = `
+      <div class="border rounded p-3">
+        <h6 class="mb-3">Additional attendee ${i}</h6>
+
+        <div class="mb-3">
+          <label for="attendee-${i}-name" class="form-label">
+            Name <span class="required">*</span>
+          </label>
+          <input
+            id="attendee-${i}-name"
+            name="attendee_${i}_name"
+            type="text"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">Please enter this attendee's name.</div>
+        </div>
+
+        <div>
+          <label for="attendee-${i}-email" class="form-label">
+            Email <span class="required">*</span>
+          </label>
+          <input
+            id="attendee-${i}-email"
+            name="attendee_${i}_email"
+            type="email"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">Please enter a valid email.</div>
+        </div>
+      </div>
+    `;
+
+    additionalAttendees.appendChild(attendee);
+
+    requestAnimationFrame(() => {
+      attendee.classList.add("is-visible");
+    });
+  }
+}
+
+attendeeCountInput.addEventListener("input", renderAdditionalAttendees);
+renderAdditionalAttendees();
 
 const setFieldError = (fieldId: string, message: string) => {
   const field = document.getElementById(fieldId) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null;
@@ -381,15 +437,15 @@ dateInputs.forEach((input) => input.addEventListener('change', validateDates));
 
 validateDates();
 
-if (topChoiceWeekend) {
-  topChoiceWeekend.addEventListener('change', () => {
-    const selectedWeekend = topChoiceWeekend.value;
+if (topChoiceDay) {
+  topChoiceDay.addEventListener('change', () => {
+    const selectedDay = topChoiceDay.value;
 
-    if (!selectedWeekend) {
+    if (!selectedDay) {
       return;
     }
 
-    const matchingDateInput = dateInputs.find((input) => input.value === selectedWeekend);
+    const matchingDateInput = dateInputs.find((input) => input.value === selectedDay);
 
     if (matchingDateInput && !matchingDateInput.checked) {
       matchingDateInput.checked = true;
@@ -469,7 +525,7 @@ form.addEventListener('submit', async (event) => {
       'Thank you for your response. Your availability will help us choose the best date, and we will follow up with final details soon.',
       'success',
     );
-    window.location.hash = 'register';
+    additionalAttendees.innerHTML = "";
   } catch (error) {
     console.error('Form submission error:', error);
     showAlert(
