@@ -3,11 +3,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
 
 const candidateDates = [
+  'Saturday, September 12th',
   'Sunday, September 27th',
   'Sunday, October 4th',
   'Sunday, October 11th',
   'Monday, October 12th (Columbus Day)',
-  'Saturday, October 17th',
   'Sunday, October 18th',
 ];
 
@@ -145,7 +145,7 @@ app.innerHTML = `
               This early site is designed to help gather the right group and land on the strongest tournament date before final details are announced.
             </p>
             <p class="section-copy muted-copy mb-0">
-              Once responses are in, the final course, format, and event schedule can be confirmed with confidence.
+              Once responses are in, the final course, format, and event schedule can be confirmed.
             </p>
           </div>
           <div class="col-lg-5">
@@ -198,6 +198,26 @@ app.innerHTML = `
     </section>
 
     <section id="register" class="content-section section-night">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-xl-9 col-lg-10">
+            <div class="instruction-box p-4 mb-4">
+              <h5 class="mb-3">Instructions</h5>
+              <ul class="mb-0">
+                <li>
+                  This form helps us understand availability so we can choose the best date for the tournament.
+                </li>
+                <li>
+                  If you plan to play with a specific group, one person can register the entire group by selecting the group size and adding each attendee.
+                </li>
+                <li>
+                  <strong>Please include accurate names and email addresses</strong> for all attendees so we can send updates and confirm participation.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-xl-9 col-lg-10">
