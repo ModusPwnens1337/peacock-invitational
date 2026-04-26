@@ -6,6 +6,7 @@ const candidateDates = [
   'Sunday, September 27th',
   'Sunday, October 4th',
   'Sunday, October 11th',
+  'Monday, October 12th (Columbus Day)',
   'Saturday, October 17th',
   'Sunday, October 18th',
 ];
