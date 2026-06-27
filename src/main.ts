@@ -239,25 +239,24 @@ https://peacockinvitational.com/"
                   </p>
 
                   <div class="registration-price-card mb-4">
-                    <h3 class="h5 mb-3">Entry Fee</h3>
+                    <h3 class="h5 mb-3 text-center">Entry Fee</h3>
 
-                    <p class="mb-2">
-                      Entry is expected to be approximately <strong>$150 per golfer</strong>.
-                    </p>
-
-                    <p class="mb-2">
-                      The final price will include greens fee, a box lunch at the turn, Peacock Invitational merch, and entry for prizes TBD.
-                    </p>
-
-                    <p class="mb-2">
-                      Lunch includes your choice of a Caesar chicken wrap or hummus vegetable
-                      wrap, plus an individual bag of chips, whole fruit, cookie, and bottled
-                      water.
-                    </p>
-
-                    <p class="mb-0">
-                      But don't worry about payment now, we'll take care of that later.
-                    </p>
+                    <ul class="mb-0">
+                      <li class="mb-2">
+                        Entry is expected to be approximately <strong>$150 per golfer</strong>.
+                      </li>
+                      <li class="mb-2">
+                        The final price will include greens fee, a box lunch at the turn, Peacock Invitational merch, and entry for prizes TBD.
+                      </li>
+                      <li class="mb-2">
+                        Lunch includes your choice of a Caesar chicken wrap or hummus vegetable
+                        wrap, plus an individual bag of chips, whole fruit, cookie, and bottled
+                        water.
+                      </li>
+                      <li class="mb-2">
+                        But don't worry about payment now, we'll take care of that later.
+                      </li>
+                    </ul>
                   </div>
 
                 </div>

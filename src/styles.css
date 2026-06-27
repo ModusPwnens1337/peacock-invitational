@@ -349,6 +349,9 @@ code {
   box-shadow: none;
   color: #102230;
   padding: 2rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .form-panel .form-label,
