@@ -262,6 +262,8 @@ code {
   border-radius: 1.5rem;
   padding: 1.6rem;
   background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  flex-direction: column;
 }
 
 .info-icon {
@@ -548,4 +550,39 @@ textarea.form-control {
 
 .instruction-box li {
   margin-bottom: 0.5rem;
+}
+/* Disabled yearly pre-registration button */
+.btn-pre-register-disabled,
+.btn-pre-register-disabled:disabled {
+  background: rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: none;
+  font-weight: 700;
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.preregistration-archive .instruction-box {
+  opacity: 0.82;
+}
+
+.event-action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    min-width: 220px;
+    border-radius: 999px;
+    font-weight: 600;
+    margin-top: auto;
+    min-height: 47px;
+}
+
+.registration-price-card {
+  border-radius: 1rem;
+  padding: 1.25rem;
+  background: rgba(12, 61, 99, 0.06);
+  border: 1px solid rgba(12, 61, 99, 0.12);
 }

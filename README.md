@@ -14,7 +14,7 @@ npm run dev
 Update the Formspree endpoint in `src/main.ts`:
 
 ```ts
-const formspreeEndpoint = 'https://formspree.io/f/your-form_id';
+const EVENT.formspreeEndpoint = 'https://formspree.io/f/your-form_id';
 ```
 
 ## Included assets
