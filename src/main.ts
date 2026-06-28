@@ -268,6 +268,10 @@ https://peacockinvitational.com/"
                         <input type="hidden" name="registrationType" value="Tournament registration" />
 
                         <div class="col-12">
+                          <h5 class="form-section-heading">Primary Registrant</h5>
+                        </div>
+
+                        <div class="col-12">
                           <label for="fullName" class="form-label">Full name <span class="required">*</span></label>
                           <input id="fullName" name="fullName" type="text" class="form-control" required />
                           <div class="invalid-feedback">Please enter your name.</div>
@@ -285,12 +289,6 @@ https://peacockinvitational.com/"
                         </div>
 
                         <div class="col-md-6">
-                          <label for="attendeeCount" class="form-label">Group size <span class="required">*</span></label>
-                          <input id="attendeeCount" name="attendeeCount" type="number" min="1" max="12" value="1" class="form-control" required />
-                          <div class="invalid-feedback">Please enter a group size.</div>
-                        </div>
-
-                        <div class="col-md-6">
                           <label for="handicap" class="form-label">Handicap <span class="optional">Optional</span></label>
                           <input
                             id="handicap"
@@ -298,15 +296,64 @@ https://peacockinvitational.com/"
                             type="number"
                             min="0"
                             max="36"
-                            step="any"
+                            step="0.1"
                             inputmode="decimal"
-                            placeholder="e.g. 12.5"
+                            placeholder="e.g. 17.6"
                             class="form-control"
                           />
                           <div class="optional mt-1">If you don't have a handicap that's fine, this is for fun!</div>
                         </div>
 
-                        <div id="additional-attendees" class="row g-3"></div>
+                        <div class="col-12 mt-4">
+                          <h5 class="form-section-heading">Playing Partner</h5>
+                          <p class="optional mb-3">
+                            If you already know who your playing partner will be, enter their information below. If not, you can leave these fields blank and update us later.
+                          </p>
+                        </div>
+
+                        <div class="col-md-8">
+                          <label for="partnerName" class="form-label">
+                            Partner name <span class="optional">Optional</span>
+                          </label>
+
+                          <input
+                            id="partnerName"
+                            name="partnerName"
+                            type="text"
+                            class="form-control"
+                          />
+                        </div>
+
+                        <div class="col-md-8">
+                          <label for="partnerHandicap" class="form-label">Partner handicap <span class="optional">Optional</span></label>
+                          <input
+                            id="partnerHandicap"
+                            name="partnerHandicap"
+                            type="number"
+                            min="0"
+                            max="36"
+                            step="0.1"
+                            inputmode="decimal"
+                            placeholder="e.g. 12.4"
+                            class="form-control"
+                          />
+                        </div>
+
+                        <div class="col-12 mt-4">
+                          <h5 class="form-section-heading">Preferred Foursome</h5>
+                          <p class="optional mb-3">
+                            If you'd like your twosome paired with another twosome, list their names below. We'll do our best to keep requested foursomes together.
+                          </p>
+
+                          <label for="preferredFoursome" class="form-label">Preferred foursome <span class="optional">Optional</span></label>
+                          <textarea
+                            id="preferredFoursome"
+                            name="preferredFoursome"
+                            rows="3"
+                            class="form-control"
+                            placeholder="Example: We'd like to play with John Smith and Mike Jones."
+                          ></textarea>
+                        </div>
 
                         <div class="col-12">
                           <label for="notes" class="form-label">Notes <span class="optional">Optional</span></label>
@@ -336,10 +383,21 @@ https://peacockinvitational.com/"
               <h5 class="mb-3">Tournament Format</h5>
               <ul class="mb-0">
                 <li>
-                  The Peacock Invitational is a four-person team golf tournament designed to be fun and competitive for golfers of all skill levels.
+                  The Peacock Invitational will be played as a 2-Person Scramble, making it a fun and relaxed format for golfers of all skill levels.
                 </li>
                 <li>
-                  Each golfer will play their own ball and keep their own score throughout the round. Handicaps will be used to level the playing field, giving every team a fair chance to compete regardless of experience.
+                  Here's how it works:
+                  <ul class="mb-0">
+                    <li>Teams consist of two golfers.</li>
+                    <li>Both players tee off on every hole.</li>
+                    <li>The team chooses the best shot.</li>
+                    <li>Both players then play their next shot from that location.</li>
+                    <li>This process continues until the ball is holed.</li>
+                    <li>Only one team score is recorded for each hole.</li>
+                  </ul>
+                </li>
+                <li>
+                  Handicaps will be used to help keep the competition fair. Additional details on scoring and handicap calculations will be shared prior to the tournament.
                 </li>
                 <li>
                   The exact team scoring format and tournament rules will be announced prior to the event.
@@ -379,85 +437,10 @@ const form = document.querySelector<HTMLFormElement>('#registration-form');
 const submitButton = document.querySelector<HTMLButtonElement>('#submitButton');
 const alertRegion = document.querySelector<HTMLDivElement>('#alert-region');
 const emailInput = document.querySelector<HTMLInputElement>('#email');
-const attendeeCountInput = document.getElementById('attendeeCount') as HTMLInputElement | null;
-const additionalAttendees = document.getElementById('additional-attendees') as HTMLDivElement | null;
 
-if (!form || !submitButton || !alertRegion || !attendeeCountInput || !additionalAttendees) {
+if (!form || !submitButton || !alertRegion) {
   throw new Error('Form elements not found.');
 }
-
-function renderAdditionalAttendees(): void {
-  if (!attendeeCountInput || !additionalAttendees) return;
-
-  const count = Math.max(1, Number(attendeeCountInput.value) || 1);
-  const existingAttendees = additionalAttendees.querySelectorAll<HTMLElement>('.additional-attendee');
-
-  existingAttendees.forEach((attendee) => {
-    const attendeeNumber = Number(attendee.dataset.attendeeNumber);
-
-    if (attendeeNumber > count) {
-      attendee.classList.remove('is-visible');
-      attendee.classList.add('is-removing');
-
-      setTimeout(() => {
-        attendee.remove();
-      }, 350);
-    }
-  });
-
-  for (let i = 2; i <= count; i++) {
-    if (additionalAttendees.querySelector(`[data-attendee-number="${i}"]`)) {
-      continue;
-    }
-
-    const attendee = document.createElement('div');
-    attendee.className = 'col-12 additional-attendee';
-    attendee.dataset.attendeeNumber = String(i);
-
-    attendee.innerHTML = `
-      <div class="border rounded p-3">
-        <h6 class="mb-3">Additional attendee ${i}</h6>
-
-        <div class="mb-3">
-          <label for="attendee-${i}-name" class="form-label">
-            Name <span class="required">*</span>
-          </label>
-          <input
-            id="attendee-${i}-name"
-            name="attendee_${i}_name"
-            type="text"
-            class="form-control"
-            required
-          />
-          <div class="invalid-feedback">Please enter this attendee's name.</div>
-        </div>
-
-        <div>
-          <label for="attendee-${i}-email" class="form-label">
-            Email <span class="required">*</span>
-          </label>
-          <input
-            id="attendee-${i}-email"
-            name="attendee_${i}_email"
-            type="email"
-            class="form-control"
-            required
-          />
-          <div class="invalid-feedback">Please enter a valid email.</div>
-        </div>
-      </div>
-    `;
-
-    additionalAttendees.appendChild(attendee);
-
-    requestAnimationFrame(() => {
-      attendee.classList.add('is-visible');
-    });
-  }
-}
-
-attendeeCountInput.addEventListener('input', renderAdditionalAttendees);
-renderAdditionalAttendees();
 
 const setFieldError = (fieldId: string, message: string) => {
   const field = document.getElementById(fieldId) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null;
@@ -536,12 +519,12 @@ form.addEventListener('submit', async (event) => {
 
     form.reset();
     form.classList.remove('was-validated');
-    additionalAttendees.innerHTML = '';
-    renderAdditionalAttendees();
+
     showAlert(
       'Thank you for registering. We received your information and will follow up with tournament details soon.',
       'success',
     );
+
   } catch (error) {
     console.error('Form submission error:', error);
     showAlert(
