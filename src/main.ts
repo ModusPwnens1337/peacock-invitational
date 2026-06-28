@@ -214,7 +214,7 @@ https://peacockinvitational.com/"
                   This form registers you for The Peacock Invitational on <strong>${EVENT.eventDate}</strong>.
                 </li>
                 <li>
-                  If you plan to play with a specific group, one person can register the entire group by selecting the group size and adding each attendee. 
+                  If you plan to play with a specific group, one person can register the entire group by selecting playing partner and preferred foursome. 
                   If you just register for yourself, don't worry, we'll take care of group making.
                 </li>
                 <li>
