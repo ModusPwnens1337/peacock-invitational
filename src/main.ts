@@ -48,7 +48,8 @@ app.innerHTML = `
             <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
             <li class="nav-item"><a class="nav-link" href="#details">Details</a></li>
             <li class="nav-item"><a class="nav-link" href="#register">Registration</a></li>
-            <li class="nav-item"><button class="btn btn-pre-register-disabled ms-lg-2" type="button" disabled aria-disabled="true">Pre-Register</button></li>
+            <li class="nav-item"><a class="nav-link" href="#format">Format</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact">Contact Us</a></li>
           </ul>
         </div>
       </div>
@@ -145,6 +146,7 @@ app.innerHTML = `
                   Jacksonville, FL 32225
                 </p>
 
+              <div class="event-action-wrapper">
                 <a
                   href=${EVENT.googleMapsUrl}
                   target="_blank"
@@ -153,6 +155,7 @@ app.innerHTML = `
                 >
                   🗺️ View on Maps
                 </a>
+                </div>
             </article>
           </div>
           <div class="col-md-6 col-xl-3">
@@ -163,33 +166,34 @@ app.innerHTML = `
               <p class="small mb-3">
                 ${ARRIVAL_MESSAGE}
               </p>
-              <add-to-calendar-button
-                name="Peacock Invitational Golf Tournament"
-                startDate="2026-09-12"
-                startTime="09:00"
-                endTime="16:00"
-                timeZone="America/New_York"
-                location="Queen's Harbour Country Club"
-                options="'Apple','Google','iCal','Microsoft365','Outlook.com'"
-                description="Join us for the Peacock Invitational Golf Tournament!
+              <div class="event-action-wrapper">
+                <add-to-calendar-button
+                  name="Peacock Invitational Golf Tournament"
+                  startDate="2026-09-12"
+                  startTime="09:00"
+                  endTime="16:00"
+                  timeZone="America/New_York"
+                  location="Queen's Harbour Country Club"
+                  options="'Apple','Google','iCal','Microsoft365','Outlook.com'"
+                  description="Join us for the Peacock Invitational Golf Tournament!
 
-Date: September 12, 2026
+  Date: September 12, 2026
 
-${ARRIVAL_MESSAGE}
+  ${ARRIVAL_MESSAGE}
 
-More information:
-https://peacockinvitational.com/"
-                buttonStyle="round"
-                buttonClass="event-action-btn"
-                hideCheckmark
-              ></add-to-calendar-button>
+  More information:
+  https://peacockinvitational.com/"
+                  buttonStyle="round"
+                  hideCheckmark
+                ></add-to-calendar-button>
+              </div>
             </article>
           </div>
           <div class="col-md-6 col-xl-3">
             <article class="info-card h-100">
               <span class="info-icon">⛳</span>
               <h3>Format</h3>
-              <p>The exact team scoring format and tournament rules will be announced prior to the event.</p>
+              <p>We are currently envisioning this as a 2-person scramble, please see <a href="#format" class="in-text-btn">Tournament Format</a> below for more information.</p>
             </article>
           </div>
           <div class="col-md-6 col-xl-3">
@@ -375,11 +379,13 @@ https://peacockinvitational.com/"
           </div>
         </div>
       </div>
+    </section>
 
+    <section id="format" class="content-section section-deep">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-xl-9 col-lg-10">
-            <div class="instruction-box p-4 mt-4">
+            <div class="instruction-box-green p-4 mt-4">
               <h5 class="mb-3">Tournament Format</h5>
               <ul class="mb-0">
                 <li>
@@ -409,17 +415,22 @@ https://peacockinvitational.com/"
       </div>
     </section>
 
-    <section id="pre-register" class="content-section section-deep preregistration-archive" aria-labelledby="pre-register-heading">
+    <section id="contact" class="contact-section">
       <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-xl-9 col-lg-10">
-            <div class="instruction-box p-4 mb-4">
-              <h5 id="pre-register-heading" class="mb-3">Pre-registration section</h5>
-              <p class="mb-0">
-                This section is intentionally kept in the site for future yearly planning. The 2026 tournament date has been selected, so pre-registration is paused for now.
-              </p>
-            </div>
-          </div>
+        <div class="contact-card">
+
+          <h2>Have a question?</h2>
+
+          <p class="mb-4">
+            We're happy to help! If there's anything you're unsure about,
+            feel free to reach out to Dylan anytime.
+          </p>
+
+          <a href="tel:9047701966" class="contact-phone">
+            <span class="contact-icon">📞</span>
+            (904) 770-1966
+          </a>
+
         </div>
       </div>
     </section>
